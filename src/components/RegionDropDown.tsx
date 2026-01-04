@@ -1,21 +1,28 @@
 import { useState, useRef, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
-export function RegionDropDown() {
+interface RegionDropDownProps {
+  selectedRegion: string;
+  onRegionChange: (region: string) => void;
+}
+
+export function RegionDropDown({
+  selectedRegion,
+  onRegionChange,
+}: RegionDropDownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedRegion, setSelectedRegion] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const regions = [
     { value: "Africa", label: "Africa" },
-    { value: "America", label: "America" },
+    { value: "Americas", label: "Americas" },
     { value: "Asia", label: "Asia" },
     { value: "Europe", label: "Europe" },
     { value: "Oceania", label: "Oceania" },
   ];
 
   const handleSelect = (value: string) => {
-    setSelectedRegion(value);
+    onRegionChange(value);
     setIsOpen(false);
   };
 
@@ -35,7 +42,7 @@ export function RegionDropDown() {
   }, []);
 
   const displayText =
-    regions.find((r) => r.value === selectedRegion)?.label ||
+    regions.find((region) => region.value === selectedRegion)?.label ||
     "Filter by Region";
 
   return (
