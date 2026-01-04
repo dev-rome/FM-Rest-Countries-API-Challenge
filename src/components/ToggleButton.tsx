@@ -6,6 +6,7 @@ export function ToggleButton() {
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
       className="flex items-center gap-2 lg:cursor-pointer"
     >
