@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useCountries } from "../hooks/useCountries";
 import { Navbar } from "../components/Navbar";
 import { RegionDropDown } from "../components/RegionDropDown";
@@ -69,7 +70,13 @@ export default function HomePage() {
             ) : (
               <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16 lg:grid-cols-3 xl:grid-cols-4">
                 {visibleCountries.map((country) => (
-                  <CountriesCard key={country.cca3} country={country} />
+                  <Link
+                    key={country.cca3}
+                    to={`/country/${country.cca3}`}
+                    className="block"
+                  >
+                    <CountriesCard country={country} />
+                  </Link>
                 ))}
               </div>
             )}
