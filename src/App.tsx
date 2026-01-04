@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { Country } from "./types/country";
 import { Navbar } from "./components/Navbar";
 import { RegionDropDown } from "./components/RegionDropDown";
 import { SearchInput } from "./components/SearchInput";
 import { CountriesCard } from "./components/CountriesCard";
+
+const PAGE_SIZE = 20;
 
 export default function App() {
   const [countries, setCountries] = useState<Country[]>([]);
@@ -11,11 +13,13 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
 
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         setIsLoading(true);
+
         const res = await fetch(
           "https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags,cca3",
         );
@@ -35,16 +39,31 @@ export default function App() {
     setSearchTerm(e.target.value);
   };
 
-  const filteredCountries = countries.filter((country) => {
-    const matchesSearch = country.name.common
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  // Filter countries by search text and selected region.
+  // Recomputes only when countries, searchTerm, or selectedRegion change.
+  const filteredCountries = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
 
-    const matchesRegion =
-      selectedRegion === "" || country.region === selectedRegion;
+    return countries.filter((country) => {
+      const matchesSearch = country.name.common.toLowerCase().includes(q);
+      const matchesRegion =
+        selectedRegion === "" || country.region === selectedRegion;
 
-    return matchesSearch && matchesRegion;
-  });
+      return matchesSearch && matchesRegion;
+    });
+  }, [countries, searchTerm, selectedRegion]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchTerm, selectedRegion]);
+
+  // Limit how many filtered countries are shown ("Load more" behavior).
+  // Recomputes only when the filtered list or visibleCount changes.
+  const visibleCountries = useMemo(() => {
+    return filteredCountries.slice(0, visibleCount);
+  }, [filteredCountries, visibleCount]);
+
+  const canLoadMore = visibleCount < filteredCountries.length;
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -69,11 +88,21 @@ export default function App() {
               <p className="text-center text-lg">No countries found!</p>
             ) : (
               <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16 lg:grid-cols-3 xl:grid-cols-4">
-                {filteredCountries.map((country) => (
+                {visibleCountries.map((country) => (
                   <CountriesCard key={country.cca3} country={country} />
                 ))}
               </div>
             )}
+          </div>
+          <div className="my-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
+              disabled={!canLoadMore}
+              className="rounded-sm border px-6 py-3 text-sm font-semibold shadow-sm disabled:opacity-50 lg:cursor-pointer"
+            >
+              {canLoadMore ? "Load more" : "All countries loaded"}
+            </button>
           </div>
         </section>
       </main>
