@@ -14,7 +14,7 @@ export function ToggleButton() {
       ) : (
         <FaSun className="text-base lg:text-lg" />
       )}
-      <span className="text-xs font-semibold lg:text-base">
+      <span className="font-semibold lg:text-base">
         {theme === "light" ? "Dark Mode" : "Light Mode"}
       </span>
     </button>
