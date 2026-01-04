@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Light mode */
+    --color-bg: hsl(0, 0%, 99%);
+    --color-text: hsl(200, 15%, 8%);
+    --color-input: hsl(0, 0%, 50%);
+    --color-surface-base: hsl(0, 100%, 100%);
+  }
+
+  .dark {
+    /* Dark mode */
+    --color-bg: hsl(207, 26%, 17%);
+    --color-surface: hsl(209, 23%, 22%);
+    --color-text: hsl(0, 100%, 100%);
+  }
+}
+
+@theme {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-surface: var(--color-surface-base);
+  --color-input: var(--color-input);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: "Nunito Sans", sans-serif;
+  min-height: 100vh;
+  font-size: 0.875rem;
+}
