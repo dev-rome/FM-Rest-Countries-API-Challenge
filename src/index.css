@@ -12,7 +12,7 @@
   .dark {
     /* Dark mode */
     --color-bg: hsl(207, 26%, 17%);
-    --color-surface: hsl(209, 23%, 22%);
+    --color-surface-base: hsl(209, 23%, 22%);
     --color-text: hsl(0, 100%, 100%);
   }
 }
