@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import type { Country } from "../types/country";
 
 const COUNTRIES_URL =
-  "https://restcountries.com/v3.1/all?fields=name,cca3,population,region,subregion,capital,tld,currencies,languages,borders,flags";
+  "https://restcountries.com/v3.1/independent?status=true";
 
 export function useCountries() {
   const [countries, setCountries] = useState<Country[]>([]);
