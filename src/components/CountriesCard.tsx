@@ -12,6 +12,7 @@ export function CountriesCard({ country }: CountriesCardProps) {
         alt={country.flags.alt || `Flag of ${country.name.common}`}
         className="h-40 w-full object-cover"
         fetchPriority="high"
+        loading="eager"
       />
       <div className="p-6">
         <h2 className="mb-4 text-lg font-extrabold">{country.name.common}</h2>
