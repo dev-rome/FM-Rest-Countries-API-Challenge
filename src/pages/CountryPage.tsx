@@ -95,7 +95,7 @@ export default function CountryPage() {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="mb-14 flex flex-wrap gap-2">
                   <span className="font-semibold">Border Countries:</span>{" "}
                   {borderCountries.length
                     ? borderCountries.map((border) => (
