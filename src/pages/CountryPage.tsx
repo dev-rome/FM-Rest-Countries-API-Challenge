@@ -48,6 +48,7 @@ export default function CountryPage() {
                 src={country.flags.png}
                 alt={country.flags.alt || `Flag of ${country.name.common}`}
                 className="aspect-3/2 w-full object-cover"
+                fetchPriority="high"
               />
               <div className="py-0 md:py-10">
                 <h2 className="mb-4 text-2xl font-extrabold md:mb-6 md:text-3xl">
